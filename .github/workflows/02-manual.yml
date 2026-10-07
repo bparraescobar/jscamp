@@ -1,0 +1,60 @@
+name: 02 - Manual Trigger
+
+on:
+    workflow_dispatch:
+        inputs:
+            log_level:
+                description: 'Log level'
+                required: true
+                default: 'info'
+                type: choice
+                options:
+                    - info
+                    - debug
+                    - warning
+                    - error
+
+            environment:
+                description: "Entorno"
+                type: environment
+
+            dry_run:
+                description: "Ejecutar sin aplicar cambios"
+                required: false
+                type: boolean
+                default: false
+
+            reason:
+                description: "Motivo de la ejecución"
+                required: false
+                default: "Manual execution"
+                type: string
+jobs:
+    manual:
+        runs-on: ubuntu-24.04
+        steps:
+            - name: Mostrar todos los inputs
+              env:
+                LOG_LEVEL: ${{ github.event.inputs.log_level }}
+                ENVIRONMENT: ${{ github.event.inputs.environment }}
+                DRY_RUN: ${{ github.event.inputs.dry_run }}
+                REASON: ${{ github.event.inputs.reason }}
+              run: |
+                echo "Log Level: $LOG_LEVEL"
+                echo "Environment: $ENVIRONMENT"
+                echo "Dry Run: $DRY_RUN"
+                echo "Reason: $REASON"
+
+            - name: Deploy (solo si no es dry-run)    
+              if: ${{ !inputs.dry_run }}
+              env:
+                ENVIRONMENT: ${{ inputs.environment }}
+              run: |
+                echo "deploying to $ENVIRONMENT"  
+
+            - name: Solo log si es dry-run
+              if: ${{ inputs.dry_run }}
+              run: |
+                echo "Dry run: no changes applied"
+
+     
