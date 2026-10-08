@@ -22,11 +22,13 @@ runs:
 
     - name: Setup Node.js
       id: setup-node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'pnpm'
-        
+
     - name: Install dependencies
       shell: bash
-      run: pnpm install --frozen-lockfile
+      run: | 
+        cd 09-ci-cd
+        pnpm install --frozen-lockfile
