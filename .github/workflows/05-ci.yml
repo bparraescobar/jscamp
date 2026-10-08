@@ -10,7 +10,8 @@ jobs:
     frontend-lint:
       runs-on: ubuntu-24.04
       steps:
-        
+        - name: Checkout code
+          uses: actions/checkout@v6         
           
         - name: Setup pnpm and Node.js
           uses: ./.github/actions/setup-pnpm-ci-cd     
@@ -59,7 +60,7 @@ jobs:
       steps:
           - name: Checkout code
             uses: actions/checkout@v6          
-            
+
           - name: Setup pnpm and Node.js
             uses: ./.github/actions/setup-pnpm-ci-cd           
 
