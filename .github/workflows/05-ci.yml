@@ -50,7 +50,7 @@ jobs:
 
           - name: Lint
             run: |
-                  cd 09-ci-cd/backend
+                  cd 09-ci-cd
                   echo "::group::lint"
                   pnpm lint:backend
                   echo "::endgroup::"
@@ -66,7 +66,7 @@ jobs:
 
           - name: Test
             run: |
-                  cd 09-ci-cd/backend
+                  cd 09-ci-cd
                   echo "::group::test"
                   pnpm test:backend
                   echo "::endgroup::"                  
