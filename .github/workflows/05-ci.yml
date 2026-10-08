@@ -7,42 +7,106 @@ on:
         branches: [master]    
 
 jobs:
-    ci:
-        runs-on: ubuntu-24.04
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v6
+    frontend-lint:
+      runs-on: ubuntu-24.04
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v6
 
-            - name: Preparar pnpm
-              uses: pnpm/action-setup@v6
-              with:
-                    version: 11
-                    run_install: false
+        - name: Preparar pnpm
+          uses: pnpm/action-setup@v6
+          with:
+                version: 11
+                run_install: false
 
-            - name: Instalar dependencias
-              run: |
-                    cd 09-ci-cd
-                    echo "::group::Instalar dependencias"
-                    pnpm install --frozen-lockfile
-                    echo "::endgroup::"
+        - name: Instalar dependencias
+          run: |
+                cd 09-ci-cd
+                echo "::group::Instalar dependencias"
+                pnpm install --frozen-lockfile
+                echo "::endgroup::"
 
-            - name: Lint
-              run: |
-                    cd 09-ci-cd
-                    echo "::group::lint"
-                    pnpm lint
-                    echo "::endgroup::"
+        - name: Lint
+          run: |
+                cd 09-ci-cd
+                echo "::group::lint"
+                pnpm lint:frontend
+                echo "::endgroup::"
 
-            - name: Test
-              run: |
-                    cd 09-ci-cd
-                    echo "::group::Test"
-                    pnpm test
-                    echo "::endgroup::"
+    frontend-test:
+      runs-on: ubuntu-24.04
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v6
 
-            - name: Build
-              run: |
-                    cd 09-ci-cd
-                    echo "::group::Build"
-                    pnpm build              
-                    echo "::endgroup::"
+        - name: Preparar pnpm
+          uses: pnpm/action-setup@v6
+          with:
+                version: 11
+                run_install: false
+
+        - name: Instalar dependencias
+          run: |
+                cd 09-ci-cd
+                echo "::group::Instalar dependencias"
+                pnpm install --frozen-lockfile
+                echo "::endgroup::"
+
+        - name: Test
+          run: |
+                cd 09-ci-cd
+                echo "::group::test"
+                pnpm test:frontend
+                echo "::endgroup::"
+                
+    backend-lint:
+      runs-on: ubuntu-24.04
+      steps:
+          - name: Checkout code
+            uses: actions/checkout@v6
+
+          - name: Preparar pnpm
+            uses: pnpm/action-setup@v6
+            with:
+                  version: 11
+                  run_install: false
+
+          - name: Instalar dependencias
+            run: |
+                  cd 09-ci-cd/backend
+                  echo "::group::Instalar dependencias"
+                  pnpm install --frozen-lockfile
+                  echo "::endgroup::"
+
+          - name: Lint
+            run: |
+                  cd 09-ci-cd/backend
+                  echo "::group::lint"
+                  pnpm lint:backend
+                  echo "::endgroup::"
+                  
+    backend-test:
+      runs-on: ubuntu-24.04
+      steps:
+          - name: Checkout code
+            uses: actions/checkout@v6
+
+          - name: Preparar pnpm
+            uses: pnpm/action-setup@v6
+            with:
+                  version: 11
+                  run_install: false
+
+          - name: Instalar dependencias
+            run: |
+                  cd 09-ci-cd/backend
+                  echo "::group::Instalar dependencias"
+                  pnpm install --frozen-lockfile
+                  echo "::endgroup::"
+
+          - name: Test
+            run: |
+                  cd 09-ci-cd/backend
+                  echo "::group::test"
+                  pnpm test:backend
+                  echo "::endgroup::"                  
