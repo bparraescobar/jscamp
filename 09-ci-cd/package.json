@@ -14,6 +14,7 @@
     "build:frontend": "pnpm --filter @jscamp-ci/frontend build",
     "build:backend": "pnpm --filter @jscamp-ci/backend build",
     "build": "pnpm -r build",
-    "start:backend": "pnpm --filter @jscamp-ci/backend start"
+    "start:backend": "pnpm --filter @jscamp-ci/backend start",
+    "stop:backend": "pnpm --filter @jscamp-ci/backend stop"
   }
 }
